@@ -1,0 +1,19 @@
+local teleportPart = script.Parent  
+local destination = game.Workspace:FindFirstChild("TeleportDestination")  
+local sound = Instance.new("Sound", teleportPart)  
+
+sound.SoundId = "rbxassetid://912345678" -- Replace with actual SoundId  
+sound.Volume = 1  
+
+local function onTouch(otherPart)  
+    local character = otherPart.Parent  
+    local humanoid = character and character:FindFirstChildOfClass("Humanoid")  
+
+    if humanoid and destination then  
+        sound:Play() -- Play the teleport sound  
+        wait(1)  
+        character:SetPrimaryPartCFrame(destination.CFrame)  
+    end  
+end  
+
+teleportPart.Touched:Connect(onTouch)  
