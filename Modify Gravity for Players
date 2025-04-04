@@ -1,0 +1,3 @@
+local player = game.Players.LocalPlayer -- Get the local player
+
+game.Workspace.Gravity = 100 -- Lower gravity (default is 196.2)
