@@ -1,0 +1,14 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local function makeGlow()
+    for _, part in pairs(character:GetChildren()) do
+        if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+            part.Material = Enum.Material.Neon  -- Apply Neon material
+            part.Color = Color3.fromRGB(0, 255, 255)  -- Cyan color (change as needed)
+            part.Transparency = 0.2  -- Slightly transparent for glow effect
+        end
+    end
+end
+
+makeGlow()  -- Apply glow when the script runs
