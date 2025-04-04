@@ -1,0 +1,14 @@
+local speedBoost = script.Parent  -- Get the part the script is inside
+
+local function onTouch(otherPart)
+    local character = otherPart.Parent  -- Get the character that touched the part
+    local humanoid = character:FindFirstChildOfClass("Humanoid")  -- Find the Humanoid
+
+    if humanoid then
+        humanoid.WalkSpeed = 50  -- Increase speed when touching the part
+        wait(5)  -- Speed boost lasts for 5 seconds
+        humanoid.WalkSpeed = 16  -- Reset speed to default
+    end
+end
+
+speedBoost.Touched:Connect(onTouch)  -- Run function when touched
