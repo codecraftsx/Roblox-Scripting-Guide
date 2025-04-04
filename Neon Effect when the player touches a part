@@ -1,0 +1,18 @@
+local glowPart = script.Parent  -- Get the part the script is inside
+
+local function onTouch(otherPart)
+    local character = otherPart.Parent  -- Get the character that touched the part
+    local humanoid = character:FindFirstChildOfClass("Humanoid")  -- Check if it's a player
+
+    if humanoid then
+        local bodyParts = character:GetChildren()
+        for _, part in ipairs(bodyParts) do
+            if part:IsA("BasePart") then
+                part.Material = Enum.Material.Neon  -- Make parts glow
+                part.Color = Color3.fromRGB(255, 255, 0)  -- Set glow color (yellow)
+            end
+        end
+    end
+end
+
+glowPart.Touched:Connect(onTouch)  -- Run function when touched
