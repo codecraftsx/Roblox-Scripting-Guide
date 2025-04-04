@@ -1,0 +1,53 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local userInput = game:GetService("UserInputService")
+
+local normalSpeed = 16
+local sprintSpeed = 28
+local stamina = 5
+local maxStamina = 5
+local running = false
+
+-- Stamina loop
+task.spawn(function()
+	while true do
+		wait(1)
+		if running then
+			if stamina > 0 then
+				stamina = stamina - 1
+			end
+			if stamina <= 0 then
+				stamina = 0
+				humanoid.WalkSpeed = normalSpeed
+			end
+		else
+			if stamina < maxStamina then
+				stamina = stamina + 1
+			end
+		end
+	end
+end)
+
+-- Start sprinting
+userInput.InputBegan:Connect(function(input, gameProcessed)
+	if input.KeyCode == Enum.KeyCode.LeftShift and not gameProcessed and stamina > 0 then
+		running = true
+		humanoid.WalkSpeed = sprintSpeed
+	end
+end)
+
+-- Stop sprinting
+userInput.InputEnded:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.LeftShift then
+		running = false
+		humanoid.WalkSpeed = normalSpeed
+	end
+end)
+
+-- Handle respawn
+player.CharacterAdded:Connect(function(newChar)
+	character = newChar
+	humanoid = newChar:WaitForChild("Humanoid")
+	humanoid.WalkSpeed = normalSpeed
+end)
