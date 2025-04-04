@@ -1,0 +1,7 @@
+local player = game.Players.LocalPlayer -- Get the current player
+local character = player.Character or player.CharacterAdded:Wait() -- Ensure character exists
+local humanoid = character:FindFirstChildOfClass("Humanoid") -- Find the Humanoid
+
+if humanoid then
+    humanoid.WalkSpeed = 30 -- Set walk speed to 30 (faster)
+end
