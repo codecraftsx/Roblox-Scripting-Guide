@@ -1,0 +1,16 @@
+local teleportPart = script.Parent  
+local destination = game.Workspace:FindFirstChild("TeleportDestination")  
+
+local function onTouch(otherPart)  
+    local character = otherPart.Parent  
+    local humanoid = character and character:FindFirstChildOfClass("Humanoid")  
+
+    if humanoid and destination then  
+        humanoid.WalkSpeed = 0 -- Freeze player movement  
+        wait(1) -- Wait before teleporting  
+        character:SetPrimaryPartCFrame(destination.CFrame)  
+        humanoid.WalkSpeed = 16 -- Restore default speed  
+    end  
+end  
+
+teleportPart.Touched:Connect(onTouch)  
