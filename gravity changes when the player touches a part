@@ -1,0 +1,17 @@
+local gravityPart = script.Parent  -- Get the part this script is inside
+
+local function onTouch(otherPart)
+    local character = otherPart.Parent  -- Get the character that touched the part
+    local humanoid = character:FindFirstChildOfClass("Humanoid")  -- Find the Humanoid
+    
+    if humanoid then
+        -- If gravity is normal, invert it; if inverted, reset it
+        if game.Workspace.Gravity > 0 then
+            game.Workspace.Gravity = -196.2  -- Flip gravity, making player float up
+        else
+            game.Workspace.Gravity = 196.2  -- Reset gravity to normal
+        end
+    end
+end
+
+gravityPart.Touched:Connect(onTouch)  -- Run function when part is touched
