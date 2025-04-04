@@ -1,0 +1,13 @@
+local teleportPart = script.Parent -- The part that will trigger teleportation
+local destination = game.Workspace:FindFirstChild("TeleportDestination") -- The target location
+
+local function onTouch(otherPart)
+    local character = otherPart.Parent -- Get the character that touched the part
+    local humanoid = character:FindFirstChildOfClass("Humanoid") -- Check if it's a player
+
+    if humanoid and destination then
+        character:SetPrimaryPartCFrame(destination.CFrame) -- Move player to the teleport destination
+    end
+end
+
+teleportPart.Touched:Connect(onTouch) -- Trigger function when touched
