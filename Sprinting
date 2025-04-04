@@ -1,0 +1,25 @@
+local player = game.Players.LocalPlayer  -- Get the player using the script
+local character = player.Character or player.CharacterAdded:Wait()  -- Get the player's character
+local humanoid = character:FindFirstChildOfClass("Humanoid")  -- Find the Humanoid (controls movement)
+
+local userInput = game:GetService("UserInputService")  -- Allows detection of keyboard input
+local sprintSpeed = 30  -- Speed while sprinting
+local normalSpeed = 16  -- Default walking speed
+
+-- Function to increase speed when Shift is pressed
+local function onInputBegan(input, gameProcessed)
+    if input.KeyCode == Enum.KeyCode.LeftShift and not gameProcessed then  -- If Shift key is pressed
+        humanoid.WalkSpeed = sprintSpeed  -- Increase speed
+    end
+end
+
+-- Function to reset speed when Shift is released
+local function onInputEnded(input, gameProcessed)
+    if input.KeyCode == Enum.KeyCode.LeftShift and not gameProcessed then  -- If Shift key is released
+        humanoid.WalkSpeed = normalSpeed  -- Reset speed
+    end
+end
+
+-- Connect input functions to UserInputService events
+userInput.InputBegan:Connect(onInputBegan)  -- Detects when a key is pressed
+userInput.InputEnded:Connect(onInputEnded)  -- Detects when a key is released
