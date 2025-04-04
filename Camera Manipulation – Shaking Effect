@@ -1,0 +1,45 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+-- Set up the camera shake trigger
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Find the CameraShakeTrigger part
+local shakeTrigger = workspace:FindFirstChild("CameraShakeTrigger")
+if shakeTrigger and shakeTrigger:IsA("BasePart") then
+    shakeTrigger.Touched:Connect(function(hit)
+        if hit.Parent == character then
+            -- Store original camera position
+            local originalCFrame = camera.CFrame
+            local startTime = tick()
+            local shakeDuration = 2 -- 2 seconds of shake
+            
+            -- Create the shake effect
+            local connection
+            connection = RunService.RenderStepped:Connect(function()
+                local elapsed = tick() - startTime
+                
+                -- End shake after 2 seconds
+                if elapsed > shakeDuration then
+                    camera.CFrame = originalCFrame
+                    connection:Disconnect()
+                    return
+                end
+                
+                -- Simple random offset for camera
+                local offsetX = math.random(-5, 5) / 10
+                local offsetY = math.random(-5, 5) / 10
+                
+                -- Apply shake (only in X and Y for simpler effect)
+                camera.CFrame = originalCFrame * CFrame.new(offsetX, offsetY, 0)
+            end)
+        end
+    end)
+end
+
+-- Handle character respawning
+player.CharacterAdded:Connect(function(newCharacter)
+    character = newCharacter
+end)
