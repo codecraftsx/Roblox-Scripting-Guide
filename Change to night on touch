@@ -1,0 +1,26 @@
+-- Get a reference to the part and the sound inside it
+local part = script.Parent
+local nightSound = part:FindFirstChildOfClass("Sound")  -- Find the Sound inside the part
+
+-- Get the Lighting service
+local Lighting = game:GetService("Lighting")
+
+-- Define what happens when the part is touched
+local function onTouched(hit)
+    local player = game.Players:GetPlayerFromCharacter(hit.Parent) -- Check if it's a player
+    if player then
+        -- Change the lighting to night
+        Lighting.ClockTime = 0 -- Midnight
+        Lighting.Brightness = 1
+        Lighting.Ambient = Color3.fromRGB(30, 30, 30)
+        Lighting.OutdoorAmbient = Color3.fromRGB(50, 50, 50)
+
+        -- Play the night sound if it exists
+        if nightSound then
+            nightSound:Play()
+        end
+    end
+end
+
+-- Connect the function to the part's Touched event
+part.Touched:Connect(onTouched)
