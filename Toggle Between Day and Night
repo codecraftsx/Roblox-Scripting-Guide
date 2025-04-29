@@ -1,0 +1,47 @@
+-- Get the part and sound inside it
+local part = script.Parent
+local nightSound = part:FindFirstChildOfClass("Sound")
+
+-- Get the Lighting service
+local Lighting = game:GetService("Lighting")
+
+-- Track whether it's night or not
+local isNight = false
+
+-- Debounce flag to prevent rapid triggering
+local debounce = false
+local function onTouched(hit)
+	local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+	if player and not debounce then
+		debounce = true -- Block re-entry until debounce is reset
+
+		if not isNight then
+			-- Switch to night
+			Lighting.ClockTime = 0
+			Lighting.Brightness = 1
+			Lighting.Ambient = Color3.fromRGB(30, 30, 30)
+			Lighting.OutdoorAmbient = Color3.fromRGB(50, 50, 50)
+
+			if nightSound then
+				nightSound:Play()
+			end
+
+			isNight = true
+		else
+			-- Switch to day
+			Lighting.ClockTime = 12
+			Lighting.Brightness = 2
+			Lighting.Ambient = Color3.fromRGB(180, 180, 180)
+			Lighting.OutdoorAmbient = Color3.fromRGB(200, 200, 200)
+
+			isNight = false
+		end
+
+		-- Wait before allowing the part to be touched again
+		wait(1) -- 1 second delay
+		debounce = false
+	end
+end
+
+-- Connect the function to the part's Touched event
+part.Touched:Connect(onTouched)
