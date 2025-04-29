@@ -1,0 +1,28 @@
+-- Reference to the part
+local part = script.Parent
+
+-- Get Lighting and Atmosphere
+local Lighting = game:GetService("Lighting")
+local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
+
+-- Define what happens when player touches the part
+local function onTouched(hit)
+	local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+	if player and atmosphere then
+		-- Change fog settings
+		Lighting.FogColor = Color3.fromRGB(255, 255, 255)     -- Gray fog
+		Lighting.FogStart = 50                                -- Start distance
+		Lighting.FogEnd = 300                                 -- End distance
+
+		-- Change atmosphere settings
+		atmosphere.Density = 0.5                              -- Thicker air
+		atmosphere.Offset = 0.1                               -- Slight distance start
+		atmosphere.Color = Color3.fromRGB(180, 180, 180)      -- Light gray haze
+		atmosphere.Decay = Color3.fromRGB(80, 80, 80)         -- Darker fade
+		atmosphere.Glare = 0.3
+		atmosphere.Haze = 2
+	end
+end
+
+-- Connect the function to the Touched event
+part.Touched:Connect(onTouched)
